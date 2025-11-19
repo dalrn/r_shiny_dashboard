@@ -16,7 +16,6 @@ server <- function(input, output, session) {
 
   # 2) buat objek ts berdasarkan input$freq
   ts_data <- reactive({
-    x <- raw_data()[["value"]]
     x <- raw_data()[["IPG2211A2N"]]
     freq <- as.numeric(input$freq)
     ts(x, frequency = freq)
