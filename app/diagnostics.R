@@ -11,7 +11,7 @@ acfPacfUI <- function(id) {
 }
 
 acfPacfServer <- function(input, output, session, ts_data, diff_series) {
-  
+
   output$acf_plot <- renderPlot({
     tsdisplay(diff_series(), main = "ACF (Differenced Series)")
   })
