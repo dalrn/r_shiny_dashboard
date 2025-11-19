@@ -44,3 +44,4 @@ server <- function(input, output, session) {
              h = reactive(as.integer(input$h)),
              auto_model = reactive(input$auto_model))
 }
+
