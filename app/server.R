@@ -10,8 +10,7 @@ server <- function(input, output, session) {
   
   # 1) baca data sekali (diasumsikan ada kolom 'value')
   raw_data <- reactive({
-    path <- file.path("..", "data", "Electric_Production.csv")
-    read.csv(path)
+    read.csv("Electric_Production.csv")
   })
   
   # 2) buat objek ts berdasarkan input$freq
