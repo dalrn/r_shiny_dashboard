@@ -10,3 +10,6 @@ source("app/diagnostics.R")
 
 # jalankan aplikasi
 shinyApp(ui = ui, server = server)
+
+
+read.csv("app/Electric_Production.csv")
