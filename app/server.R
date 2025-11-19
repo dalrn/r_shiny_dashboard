@@ -10,7 +10,7 @@ server <- function(input, output, session) {
   
   # 1) baca data sekali (diasumsikan ada kolom 'value')
   raw_data <- reactive({
-    path <- file.path("..", "data", "your_timeseries.csv")
+    path <- file.path("..", "data", "Electric_Production.csv")
     read.csv(path)
   })
   
