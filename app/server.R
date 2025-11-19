@@ -11,7 +11,7 @@ server <- function(input, output, session) {
   # 1) baca data sekali (diasumsikan ada kolom 'value')
   raw_data <- reactive({
     read.csv("Electric_Production.csv")
-    read.csv("app/Electric_Production.csv")
+    read.csv("r_shiny_dashboard/app/Electric_Production.csv")
   })
 
   # 2) buat objek ts berdasarkan input$freq
