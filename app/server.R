@@ -1,4 +1,6 @@
 # server.R
+# aaa
+
 library(forecast)
 library(ggplot2)
 library(dplyr)
@@ -42,3 +44,4 @@ server <- function(input, output, session) {
              h = reactive(as.integer(input$h)),
              auto_model = reactive(input$auto_model))
 }
+
