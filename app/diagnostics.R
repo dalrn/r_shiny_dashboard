@@ -1,5 +1,6 @@
 # diagnostics_module.R
 # komstat keren
+# komstat hebat 
 
 acfPacfUI <- function(id) {
   ns <- NS(id)
