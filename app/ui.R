@@ -126,4 +126,3 @@ ui <- fluidPage(
     )
   )
 )
-
