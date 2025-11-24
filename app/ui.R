@@ -71,7 +71,7 @@ ui <- fluidPage(
 
     # ---------- SIDEBAR ----------
     sidebarPanel(
-      h3("⚙ Pengaturan Data"),
+      h3("⚙ Pengaturan Data", style = "color:black;"),
       selectInput(
         "freq", "Frequency:",
         choices = c("Monthly (12)" = 12,
