@@ -21,3 +21,4 @@ acfPacfServer <- function(input, output, session, ts_data, diff_series) {
     pacf(diff_series(), main = "PACF (Differenced Series)")
   })
 }
+
