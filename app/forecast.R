@@ -45,3 +45,4 @@ forecastServer <- function(input, output, session,
     as.data.frame(fc_obj())
   }, rownames = TRUE)
 }
+
