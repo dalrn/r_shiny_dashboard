@@ -1,11 +1,11 @@
 # ============================================================================
 # FILE: R/04_ui_tab2_stationarity.R
-# TUJUAN: UI untuk Tab 2 - Uji Stationaritas
+# TUJUAN: UI untuk Tab 2 - Uji Stasioneritas
 # ============================================================================
 
 ui_tab2_stationarity <- function() {
   fluidPage(
-    h2("🔍 Uji Stationaritas (ADF Test)"),
+    h2("🔍 Uji Stasioneritas (ADF Test)"),
     
     fluidRow(
       column(
@@ -23,7 +23,7 @@ ui_tab2_stationarity <- function() {
         width = 6,
         wellPanel(
           h4("Pilih Tingkat Differencing"),
-          radioButtons("diff_choice", "d (Differencing Level):",
+          radioButtons("diff_choice", "d (Tingkat Differencing):",
                        choices = list("d = 0 (No differencing)" = 0,
                                      "d = 1 (1st difference)" = 1,
                                      "d = 2 (2nd difference)" = 2),

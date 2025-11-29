@@ -11,7 +11,7 @@ ui_tab4_diagnostics <- function() {
       column(
         width = 12,
         wellPanel(
-          h4("📊 Model Quality Metrics"),
+          h4("📊 Kualitas Model"),
           verbatimTextOutput("diagnostics_metrics")
         )
       )
@@ -30,7 +30,7 @@ ui_tab4_diagnostics <- function() {
     
     hr(),
     
-    h4("📈 Residual Diagnostics (4-Plot)"),
+    h4("📈 Diagnostik Residual (4-Plot)"),
     fluidRow(
       column(width = 6, plotOutput("plot_residuals_ts")),
       column(width = 6, plotOutput("plot_residuals_acf"))
@@ -46,7 +46,7 @@ ui_tab4_diagnostics <- function() {
       column(
         width = 12,
         wellPanel(
-          h4("✅ Diagnostik Conclusion"),
+          h4("✅ Kesimpulan Diagnostik"),
           uiOutput("diagnostics_conclusion")
         )
       )

@@ -4,6 +4,9 @@
 rm(list = ls())
 gc()
 
+library(shiny)
+library(shinyjs)
+
 source("R/00_packages.R")
 source("R/01_globals.R")
 source("R/02_ui_main.R")
@@ -14,7 +17,6 @@ source("R/06_ui_tab4_diagnostics.R")
 source("R/07_ui_tab5_forecast.R")
 source("R/08_ui_tab6_about.R")
 source("R/09_server_main.R")
-
 
 shinyApp(
   ui = create_ui(),
