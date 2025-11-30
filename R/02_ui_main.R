@@ -1,6 +1,6 @@
 # ============================================================================
 # FILE: R/02_ui_main.R
-# TUJUAN: Membuat struktur UI utama dengan semua tabs
+# TUJUAN: Struktur UI utama dengan semua tab
 # ============================================================================
 
 create_ui <- function() {

@@ -1,9 +1,9 @@
 # ============================================================================
-# FILE: R/09_server_main.R (MODULAR VERSION)
-# TUJUAN: Main server coordinator yang menghubungkan semua modules
+# FILE: R/09_server_main.R
+# TUJUAN: Main server coordinator yang menghubungkan semua module
 # ============================================================================
 
-# Load DEFINISI fungsi modul server (tidak menjalankan apa-apa dulu)
+# Load fungsi modul serve
 source("R/10_server_upload.R")
 source("R/11_server_stationarity.R")
 source("R/12_server_parameters.R")
@@ -12,7 +12,7 @@ source("R/14_server_forecast.R")
 
 create_server <- function(input, output, session) {
 
-  # Global reactive values container
+  # Container global reactive values
   rv <- reactiveValues(
     # Data
     raw_data = NULL,
@@ -49,7 +49,7 @@ create_server <- function(input, output, session) {
     forecast_table = NULL
   )
 
-  # Panggil modul server satu per satu
+  # Panggil modul server satu satu
   server_upload(input, output, session, rv)
   server_stationarity(input, output, session, rv)
   server_parameters(input, output, session, rv)

@@ -56,23 +56,19 @@ validate_time_series_data <- function(time_col, value_col) {
   errors <- c()
   
   if (is.null(time_col) || is.null(value_col)) {
-    errors <- c(errors, "Time and value columns must be selected")
+    errors <- c(errors, "Kolom time dan nilai harus dipilih")
   }
   
   if (length(time_col) < 10) {
-    errors <- c(errors, "Minimum 10 observations required")
+    errors <- c(errors, "Data harus memiliki minimal 10 observasi")
   }
   
   if (any(is.na(value_col))) {
-    errors <- c(errors, "Value column contains missing values")
-  }
-  
-  if (any(is.infinite(value_col))) {
-    errors <- c(errors, "Value column contains infinite values")
+    errors <- c(errors, "Kolom nilai memiliki missing value")
   }
   
   if (length(unique(value_col)) < 2) {
-    errors <- c(errors, "Value column has no variation (all same values)")
+    errors <- c(errors, "Kolom nilai tidak memiliki variasi (semuanya bernilai sama)")
   }
   
   list(
@@ -154,9 +150,9 @@ perform_adf_test <- function(ts_data) {
       critical_values = result$critical.value,
       is_stationary = result$p.value <= ADF_ALPHA,
       interpretation = if (result$p.value <= ADF_ALPHA) {
-        "Data STATIONARY (reject H0)"
+        "Data STASIONER (tolak H0)"
       } else {
-        "Data NON-STATIONARY (fail to reject H0)"
+        "Data NON-STASIONER (gagal tolak H0)"
       }
     )
   }, error = function(e) {
@@ -183,9 +179,9 @@ perform_ljung_box_test <- function(residuals) {
       p_value = result$p.value,
       is_white_noise = result$p.value > ADF_ALPHA,
       interpretation = if (result$p.value > ADF_ALPHA) {
-        "Residuals are WHITE NOISE (model is valid)"
+        "Residual adalah WHITE NOISE (tidak ada autokorelasi)"
       } else {
-        "Residuals are NOT white noise (model needs improvement)"
+        "Residual BUKAN WHITE NOISE (ada autokorelasi)"
       }
     )
   }, error = function(e) {
