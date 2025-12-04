@@ -131,8 +131,8 @@ server_upload <- function(input, output, session, rv) {
     create_success_message(
       glue::glue(
         "Upload BERHASIL: {length(rv$value_col)} observasi | ",
-        "Frequency: {rv$data_frequency} | ",
-        "Seasonal: {if (rv$is_seasonal) 'YA' else 'TIDAK'}"
+        "Seasonal: {if (rv$is_seasonal) 'YA' else 'TIDAK'} | ",
+        "Periode: {rv$data_frequency} "
       )
     )
   })
@@ -168,33 +168,10 @@ server_upload <- function(input, output, session, rv) {
     cat("Std Dev:",   format_number(sd(rv$value_col)), "\n")
     cat("Min:",       format_number(min(rv$value_col)), "\n")
     cat("Max:",       format_number(max(rv$value_col)), "\n")
-    cat("\nFrequency:", rv$data_frequency, "\n")
+    cat("\Periode:", rv$data_frequency, "\n")
     cat("Seasonal:",
         if (rv$is_seasonal)
           paste("YA, Period =", rv$seasonal_period)
-        else
-          "TIDAK",
-        "\n"
-    )
-  })
-
-  # --------------------------------------------------------------------------
-  # INFO DETEKSI OTOMATIS FREKUENSI & MUSIMAN
-  # --------------------------------------------------------------------------
-  output$auto_detection_info <- renderPrint({
-    if (is.null(rv$value_col)) return(cat("Belum ada data yang di-upload.\n"))
-
-    freq_label <- if (rv$data_frequency == 365) "Daily"
-    else if (rv$data_frequency == 52) "Weekly"
-    else if (rv$data_frequency == 12) "Monthly"
-    else if (rv$data_frequency == 4)  "Quarterly"
-    else "Yearly"
-
-    cat("=== DETEKSI OTOMATIS ===\n\n")
-    cat("Frequency:", rv$data_frequency, "(", freq_label, ")\n")
-    cat("Seasonality:",
-        if (rv$is_seasonal)
-          paste("YA, Periode =", rv$seasonal_period)
         else
           "TIDAK",
         "\n"

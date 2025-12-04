@@ -41,10 +41,6 @@ ui_tab1_upload <- function() {
             verbatimTextOutput("data_summary")
           ),
           tabPanel(
-            "🔍 Deteksi Otomatis",
-            verbatimTextOutput("auto_detection_info")
-          ),
-          tabPanel(
             "📈 Visualisasi Awal",
             plotlyOutput("plot_initial")
           )
