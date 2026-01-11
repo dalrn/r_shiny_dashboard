@@ -12,7 +12,7 @@ server_parameters <- function(input, output, session, rv) {
       # Make sure time series is available
       if (is.null(rv$ts_object)) {
         showNotification(
-          "❌ Harap upload data dan pilih kolom terlebih dahulu",
+          "❌ Please upload your data first",
           type = "error"
         )
         return()
@@ -51,7 +51,7 @@ server_parameters <- function(input, output, session, rv) {
 
         # Must be numeric
         if (is.na(p_val) || is.na(d_val) || is.na(q_val)) {
-          showNotification("❌ p, d, q harus numerik", type = "error")
+          showNotification("❌ p, d, q must be numeric", type = "error")
           return()
         }
 
@@ -68,7 +68,7 @@ server_parameters <- function(input, output, session, rv) {
 
           if (is.na(P_val) || is.na(Q_val) || is.na(D_val) || is.na(m_val)) {
             showNotification(
-              "❌ Parameter seasonal (P, Q, D, m) harus numerik",
+              "❌ Parameter seasonal (P, Q, D, m) must be numeric",
               type = "error"
             )
             return()
@@ -124,7 +124,7 @@ server_parameters <- function(input, output, session, rv) {
 
       # If successful, show success notification
       showNotification(
-        paste("✅ Fitting model berhasil:", rv$model_type),
+        paste("✅ Fitting model successful:", rv$model_type),
         type = "message"
       )
 
@@ -144,7 +144,7 @@ server_parameters <- function(input, output, session, rv) {
   # --------------------------------------------------------------------------
   output$model_fit_status <- renderUI({
     if (is.null(rv$fitted_model)) {
-      create_error_message("Model belum di-fit")
+      create_error_message("Model not fitted yet")
     } else {
       create_success_message(paste("Model:", rv$model_type))
     }
@@ -155,25 +155,25 @@ server_parameters <- function(input, output, session, rv) {
   # --------------------------------------------------------------------------
   output$model_summary_output <- renderPrint({
     if (is.null(rv$fitted_model)) {
-      cat("Model belum di-fit\n")
-      cat("1. Upload data di tab 'Data & Explorasi'\n")
-      cat("2. Cek stasioneritas di tab 'Uji Stasioneritas'\n")
-      cat("3. Pilih metode (AUTO.ARIMA atau MANUAL)\n")
-      cat("4. Klik 'Fit Model'\n")
+      cat("Model not fitted yet\n")
+      cat("1. Upload data in 'Data Exploration' tab\n")
+      cat("2. Check stationarity in 'Stationarity Test (ADF Test)' tab\n")
+      cat("3. Select method (AUTO.ARIMA or MANUAL)\n")
+      cat("4. Click 'Fit Model'\n")
       return()
     }
 
     # Real summary output
     print(summary(rv$fitted_model))
 
-    cat("\nCustom training error measures (dihitung manual):\n")
+    cat("\nCustom training error measures:\n")
 
     # Actual vs fitted values
     y <- as.numeric(rv$ts_object)
     fv <- try(fitted(rv$fitted_model), silent = TRUE)
 
     if (inherits(fv, "try-error") || length(fv) != length(y)) {
-      cat("Tidak bisa menghitung error measures (panjang fitted != data).\n")
+      cat("Can't calculate error measures (fitted length != data).\n")
       return()
     }
 

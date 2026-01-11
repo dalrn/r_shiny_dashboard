@@ -19,7 +19,7 @@ ui_tab1_upload <- function() {
           hr(),
           h5("Notes:"),
           tags$ul(
-            tags$li("Minimal 10 observations"),
+            tags$li("Data must have at least 10 observations"),
             tags$li("Date format: YYYY-MM-DD or YYYY-MM"),
             tags$li("Value column must be numeric"),
             tags$li("No missing values allowed")

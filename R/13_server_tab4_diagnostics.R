@@ -9,8 +9,8 @@ server_diagnostics <- function(input, output, session, rv) {
   # --------------------------------------------------------------------------
   output$diagnostics_metrics <- renderPrint({
     if (is.null(rv$fitted_model)) {
-      cat("Model belum di-fit\n")
-      cat("Harap fit model di tab 'Identifikasi Parameter' dahulu\n")
+      cat("Model not fitted yet\n")
+      cat("Please fit model in 'Model Parameters' tab first\n")
       return()
     }
 
@@ -28,7 +28,7 @@ server_diagnostics <- function(input, output, session, rv) {
       cat("MAE :", format_number(mae), "\n")
 
     }, error = function(e) {
-      cat("Error menghitung metrik:", e$message, "\n")
+      cat("Error calculating metrics:", e$message, "\n")
     })
   })
 
@@ -37,7 +37,7 @@ server_diagnostics <- function(input, output, session, rv) {
   # --------------------------------------------------------------------------
   output$ljung_box_output <- renderPrint({
     if (is.null(rv$fitted_model)) {
-      cat("Model belum di-fit\n")
+      cat("Model not fitted yet\n")
       return()
     }
 
@@ -57,21 +57,21 @@ server_diagnostics <- function(input, output, session, rv) {
         p_value = ljung_box_test$p.value,
         is_white_noise = ljung_box_test$p.value > 0.05,
         interpretation = if (ljung_box_test$p.value > 0.05)
-          "Residual adalah WHITE NOISE (tidak ada autokorelasi)"
+          "Residuals are WHITE NOISE (no autocorrelation)"
         else
-          "Residual BUKAN WHITE NOISE (ada autokorelasi)"
+          "Residuals are NOT WHITE NOISE (have autocorrelation)"
       )
 
       cat("=== LJUNG-BOX TEST ===\n\n")
-      cat("Statistik Uji:",
+      cat("Test Statistic:",
           format_number(rv$ljung_box_result$statistic), "\n")
       cat("P-value:",
           format(rv$ljung_box_result$p_value, digits = 4), "\n\n")
-      cat("Kesimpulan:",
+      cat("Decision:",
           rv$ljung_box_result$interpretation, "\n")
 
     }, error = function(e) {
-      cat("Error dalam Ljung-Box test:", e$message, "\n")
+      cat("Error in Ljung-Box test:", e$message, "\n")
       rv$ljung_box_result <- NULL
     })
   })
@@ -85,14 +85,14 @@ server_diagnostics <- function(input, output, session, rv) {
     if (rv$ljung_box_result$is_white_noise) {
       create_success_message(
         paste(
-          "Residual adalah WHITE NOISE (p-value =",
+          "Residuals are WHITE NOISE (p-value =",
           format(rv$ljung_box_result$p_value, digits = 4), ")"
         )
       )
     } else {
       create_error_message(
         paste(
-          "❌ Residual BUKAN white noise (p-value =",
+          "❌ Residuals are NOT WHITE NOISE (p-value =",
           format(rv$ljung_box_result$p_value, digits = 4), ")"
         )
       )
@@ -105,7 +105,7 @@ server_diagnostics <- function(input, output, session, rv) {
   output$plot_residuals_ts <- renderPlot({
     if (is.null(rv$fitted_model)) {
       plot.new()
-      text(0.5, 0.5, "Model belum di-fit", cex = 1.2, col = "gray50")
+      text(0.5, 0.5, "Model not fitted yet", cex = 1.2, col = "gray50")
       return()
     }
 
@@ -134,7 +134,7 @@ server_diagnostics <- function(input, output, session, rv) {
   output$plot_residuals_acf <- renderPlot({
     if (is.null(rv$fitted_model)) {
       plot.new()
-      text(0.5, 0.5, "Model belum di-fit", cex = 1.2, col = "gray50")
+      text(0.5, 0.5, "Model not fitted yet", cex = 1.2, col = "gray50")
       return()
     }
 
@@ -160,7 +160,7 @@ server_diagnostics <- function(input, output, session, rv) {
   output$plot_residuals_qq <- renderPlot({
     if (is.null(rv$fitted_model)) {
       plot.new()
-      text(0.5, 0.5, "Model belum di-fit", cex = 1.2, col = "gray50")
+      text(0.5, 0.5, "Model not fitted yet", cex = 1.2, col = "gray50")
       return()
     }
 
@@ -188,7 +188,7 @@ server_diagnostics <- function(input, output, session, rv) {
   output$plot_residuals_hist <- renderPlot({
     if (is.null(rv$fitted_model)) {
       plot.new()
-      text(0.5, 0.5, "Model belum di-fit", cex = 1.2, col = "gray50")
+      text(0.5, 0.5, "Model not fitted yet", cex = 1.2, col = "gray50")
       return()
     }
 
@@ -219,14 +219,14 @@ server_diagnostics <- function(input, output, session, rv) {
 
     tryCatch({
       if (rv$ljung_box_result$is_white_noise) {
-        create_success_message("MODEL VALID - Siap untuk forecast!")
+        create_success_message("MODEL VALID - Ready for forecasting!")
       } else {
         create_error_message(
-          "⚠️ MODEL BELUM VALID. Coba sesuaikan parameter atau tingkat differencing."
+          "⚠️ MODEL NOT VALID. Try adjusting parameters or differencing level."
         )
       }
     }, error = function(e) {
-      create_error_message("Error dalam menyimpulkan")
+      create_error_message("Error concluding.")
     })
   })
 }

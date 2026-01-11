@@ -16,7 +16,7 @@ server_upload <- function(input, output, session, rv) {
       } else if (ext %in% c("xlsx", "xls")) {
         rv$raw_data <- readxl::read_excel(file$datapath)
       } else {
-        showNotification("Harap upload file .csv, .xlsx, atau .xls.", type = "error")
+        showNotification("Accepted files are .csv, .xlsx, and .xls.", type = "error")
         return()
       }
 
@@ -27,7 +27,7 @@ server_upload <- function(input, output, session, rv) {
       updateSelectInput(session, "value_column",
                         choices = col_choices, selected = col_choices[2])
 
-      showNotification("✅ Upload BERHASIL!", type = "message")
+      showNotification("✅ Upload Successful!", type = "message")
 
     }, error = function(e) {
       showNotification(paste("❌ Upload error:", e$message), type = "error")
@@ -108,7 +108,7 @@ server_upload <- function(input, output, session, rv) {
         rv$seasonal_period <- seasonal_info$period
       }
 
-      showNotification("✅ Deteksi kolom BERHASIL!", type = "message")
+      showNotification("✅ Columns Detected Successfully!", type = "message")
 
     }, error = function(e) {
       showNotification(paste("❌ Error:", e$message), type = "error")
@@ -125,9 +125,9 @@ server_upload <- function(input, output, session, rv) {
 
     create_success_message(
       glue::glue(
-        "Upload BERHASIL: {length(rv$value_col)} observasi | ",
-        "Seasonal: {if (rv$is_seasonal) 'YA' else 'TIDAK'} | ",
-        "Periode: {rv$data_frequency} "
+        "Upload SUCCESSFUL: {length(rv$value_col)} observations | ",
+        "Seasonal: {if (rv$is_seasonal) 'YES' else 'NO'} | ",
+        "Period: {rv$data_frequency} "
       )
     )
   })
@@ -155,7 +155,7 @@ server_upload <- function(input, output, session, rv) {
   # DESCRIPTIVE STATISTCIS
   # --------------------------------------------------------------------------
   output$data_summary <- renderPrint({
-    if (is.null(rv$value_col)) return(cat("Belum ada data yang di-upload.\n"))
+    if (is.null(rv$value_col)) return(cat("No dataset uploaded.\n"))
 
     cat("=== DATA SUMMARY ===\n\n")
     cat("Observation:", length(rv$value_col), "\n")
@@ -163,12 +163,12 @@ server_upload <- function(input, output, session, rv) {
     cat("Std Dev:",   format_number(sd(rv$value_col)), "\n")
     cat("Min:",       format_number(min(rv$value_col)), "\n")
     cat("Max:",       format_number(max(rv$value_col)), "\n")
-    cat("\Periode:", rv$data_frequency, "\n")
+    cat("Period:", rv$data_frequency, "\n")
     cat("Seasonal:",
         if (rv$is_seasonal)
-          paste("YA, Period =", rv$seasonal_period)
+          paste("YES, Period =", rv$seasonal_period)
         else
-          "TIDAK",
+          "NO",
         "\n"
     )
   })

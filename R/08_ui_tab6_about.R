@@ -11,18 +11,63 @@ ui_tab6_about <- function() {
         width = 12,
         wellPanel(
           h3("📊 TIME SERIES FORECASTING DASHBOARD"),
-          p("Developed to fulfill the requirements of the Statistical Computing I course."),
+          
+          p(
+            "This dashboard is designed to support exploratory analysis and forecasting ",
+            "of univariate time series data. It provides tools for data visualization, ",
+            "stationarity testing, ARIMA model specification, diagnostic checking, and ",
+            "short-term forecasting."
+          ),
+          
+          p(
+            "The application is intended for educational and analytical purposes, ",
+            "particularly for users learning classical time series methods."
+          ),
+          
           hr(),
-          h4("👥 Developed by:"),
+                    
+          h4("🎯 Intended Users"),
+          p(
+            "This dashboard is intended for students and practitioners who are learning ",
+            "or applying classical time series forecasting techniques and want an ",
+            "interactive, visual workflow."
+          ),
+          
+          hr(),
+          
+          h4("🧮 Methods Used"),
+          p(
+            "The analysis and forecasting features are based on classical time series ",
+            "techniques, including stationarity tests (ADF and KPSS), ARIMA modeling, ",
+            "residual diagnostics, and point forecasting using the forecast package in R."
+          ),
+          
+          hr(),
+          
+          h4("⚠️ Limitations"),
+          tags$ul(
+            tags$li("The dashboard focuses on univariate time series only."),
+            tags$li("External regressors, structural breaks, and regime changes are not considered."),
+            tags$li("Forecast accuracy depends on data quality and the validity of model assumptions.")
+          ),
+          
+          hr(),
+          
+          h4("👥 Developed by"),
           tags$ol(
             tags$li("Andalan Raihad Nobelim"),
             tags$li("Fadia Az-Zahra Puteri"),
             tags$li("Faqih Arjiyo"),
             tags$li("Nisrina Rachmi Maulidina"),
             tags$li("Wafi Zhafarina Khasanah")
+          ),
+          
+          p(
+            em("Built using R and Shiny.")
           )
         )
       )
     )
   )
 }
+

@@ -3,11 +3,11 @@
 # ============================================================================
 
 # Load server module functions 
-source("R/10_server_upload.R")
-source("R/11_server_stationarity.R")
-source("R/12_server_parameters.R")
-source("R/13_server_diagnostics.R")
-source("R/14_server_forecast.R")
+source("R/10_server_tab1_upload.R")
+source("R/11_server_tab2_stationarity.R")
+source("R/12_server_tab3_parameters.R")
+source("R/13_server_tab4_diagnostics.R")
+source("R/14_server_tab5_forecast.R")
 
 create_server <- function(input, output, session) {
 

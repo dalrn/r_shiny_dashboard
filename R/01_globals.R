@@ -46,7 +46,6 @@ create_info_message <- function(text) {
 }
 
 # Data Validation for Time Series & Preprocessing
-
 validate_time_series_data <- function(time_col, value_col) {
   errors <- c()
   
@@ -130,7 +129,6 @@ detect_seasonality_strength <- function(ts_data, frequency) {
 }
 
 # ADF Test for Stationarity
-
 perform_adf_test <- function(ts_data) {
   tryCatch({
     result <- tseries::adf.test(ts_data)
@@ -158,7 +156,6 @@ perform_adf_test <- function(ts_data) {
 }
 
 # Ljung-Box Test for Residuals Autocorrelation
-
 perform_ljung_box_test <- function(residuals) {
   tryCatch({
     result <- lmtest::Box.test(residuals, lag = 10, type = "Ljung-Box")

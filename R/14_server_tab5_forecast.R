@@ -12,7 +12,7 @@ server_forecast <- function(input, output, session, rv) {
       # Check if model is fitted
       if (is.null(rv$fitted_model)) {
         showNotification(
-          "❌ Harap fit model di tab 'Identifikasi Parameter' dahulu",
+          "❌ Please fit model in 'Model Parameters' tab first",
           type = "error"
         )
         return()
@@ -22,7 +22,7 @@ server_forecast <- function(input, output, session, rv) {
       h <- as.integer(input$forecast_horizon)
       if (is.na(h) || h < 1) {
         showNotification(
-          "❌ Jumlah periode peramalan minimal 1",
+          "❌ Minimum forecast horizon is 1",
           type = "error"
         )
         return()
@@ -32,7 +32,7 @@ server_forecast <- function(input, output, session, rv) {
       ci_level <- as.integer(input$forecast_ci) / 100
       if (is.na(ci_level) || ci_level < 0.5 || ci_level > 0.99) {
         showNotification(
-          "❌ Tingkat konfidensi harus di antara 50-99%",
+          "❌ Confidence level must be between 50-99%",
           type = "error"
         )
         return()
@@ -58,11 +58,11 @@ server_forecast <- function(input, output, session, rv) {
           stringsAsFactors = FALSE
         )
 
-        showNotification("✅ Forecast berhasil!", type = "message")
+        showNotification("✅ Forecast successful!", type = "message")
 
       }, error = function(e) {
         showNotification(
-          paste("❌ Error dalam forecasting:", e$message),
+          paste("❌ Error in forecasting:", e$message),
           type = "error"
         )
         rv$forecast_result <- NULL
@@ -84,7 +84,7 @@ server_forecast <- function(input, output, session, rv) {
         plotly::plot_ly() %>%
           plotly::add_text(
             x = 0.5, y = 0.5,
-            text = "Lakukan forecast dahulu",
+            text = "Perform forecast first",
             textposition = "center",
             showlegend = FALSE
           ) %>%
@@ -176,7 +176,7 @@ server_forecast <- function(input, output, session, rv) {
     if (is.null(rv$forecast_table)) {
       return(
         DT::datatable(
-          data.frame(Message = "Forecast belum dilakukan"),
+          data.frame(Message = "Forecast not yet performed."),
           options = list(dom = "t")
         )
       )
@@ -207,13 +207,13 @@ server_forecast <- function(input, output, session, rv) {
     },
     content = function(file) {
       if (is.null(rv$forecast_table)) {
-        showNotification("❌ Belum ada forecast.", type = "error")
+        showNotification("❌ Forecast not yet performed.", type = "error")
         return()
       }
 
       tryCatch({
         write.csv(rv$forecast_table, file, row.names = FALSE)
-        showNotification("✅ Forecast berhasil disimpan!", type = "message")
+        showNotification("✅ Forecast saved successfully!", type = "message")
       }, error = function(e) {
         showNotification(paste("❌ Error:", e$message), type = "error")
       })

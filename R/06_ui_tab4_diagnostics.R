@@ -30,7 +30,7 @@ ui_tab4_diagnostics <- function() {
     
     hr(),
     
-    h4("📈 Diagnostik Residual (4-Plot)"),
+    h4("📈 Residual Diagnostics"),
     fluidRow(
       column(width = 6, plotOutput("plot_residuals_ts")),
       column(width = 6, plotOutput("plot_residuals_acf"))

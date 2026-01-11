@@ -33,26 +33,26 @@ server_stationarity <- function(input, output, session, rv) {
   # --------------------------------------------------------------------------
   output$adf_test_original <- renderPrint({
     if (is.null(rv$ts_object)) {
-      cat("Belum ada data yang di-upload\n")
-      cat("Harap upload data pada tab 'Data & Eksplorasi' dahulu\n")
+      cat("No dataset uploaded\n")
+      cat("Please upload data on the 'Data Exploration' tab first\n")
       return()
     }
 
     tryCatch({
-      # perform ADF
+      # Perform ADF
       rv$adf_result_original <- perform_adf_test(rv$ts_object)
 
       cat("=== ADF TEST RESULTS (ORIGINAL) ===\n\n")
-      cat("Statistik Uji:",
+      cat("Test Statistic:",
           format_number(rv$adf_result_original$statistic), "\n")
       cat("P-value:",
           format(rv$adf_result_original$p_value,
                  scientific = TRUE, digits = 4), "\n")
-      cat("Kesimpulan:",
+      cat("Decision:",
           rv$adf_result_original$interpretation, "\n\n")
 
     }, error = function(e) {
-      cat("Error dalam ADF test:", e$message, "\n")
+      cat("Error in ADF test:", e$message, "\n")
     })
   })
 
@@ -65,14 +65,14 @@ server_stationarity <- function(input, output, session, rv) {
     if (rv$adf_result_original$is_stationary) {
       create_success_message(
         paste(
-          "Data STASIONER (p-value =",
+          "Data STATIONARY (p-value =",
           format(rv$adf_result_original$p_value, digits = 4), ")"
         )
       )
     } else {
       create_error_message(
         paste(
-          "❌ Data TIDAK STASIONER (p-value =",
+          "❌ Data NOT STATIONARY (p-value =",
           format(rv$adf_result_original$p_value, digits = 4), ")"
         )
       )
@@ -84,25 +84,25 @@ server_stationarity <- function(input, output, session, rv) {
   # --------------------------------------------------------------------------
   output$adf_test_differenced <- renderPrint({
     if (is.null(rv$ts_differenced)) {
-      cat("Pilih tingkatan differencing (d) di atas\n")
+      cat("Please select differencing level (d) above\n")
       return()
     }
 
     tryCatch({
-      # perform ADF
+      # Perform ADF
       rv$adf_result_differenced <- perform_adf_test(rv$ts_differenced)
 
       cat("=== ADF TEST RESULTS (d =", rv$diff_level, ") ===\n\n")
-      cat("Statistik Uji:",
+      cat("Test Statistic:",
           format_number(rv$adf_result_differenced$statistic), "\n")
       cat("P-value:",
           format(rv$adf_result_differenced$p_value,
                  scientific = TRUE, digits = 4), "\n")
-      cat("Kesimpulan:",
+      cat("Decision:",
           rv$adf_result_differenced$interpretation, "\n\n")
 
     }, error = function(e) {
-      cat("Error dalam ADF test:", e$message, "\n")
+      cat("Error in ADF test:", e$message, "\n")
     })
   })
 
@@ -115,14 +115,14 @@ server_stationarity <- function(input, output, session, rv) {
     if (rv$adf_result_differenced$is_stationary) {
       create_success_message(
         paste(
-          "STASIONER (p-value =",
+          "STATIONARY (p-value =",
           format(rv$adf_result_differenced$p_value, digits = 4), ")"
         )
       )
     } else {
       create_error_message(
         paste(
-          "❌ TIDAK STASIONER (p-value =",
+          "❌ NOT STATIONARY (p-value =",
           format(rv$adf_result_differenced$p_value, digits = 4), ")"
         )
       )
@@ -137,7 +137,7 @@ server_stationarity <- function(input, output, session, rv) {
       plot.new()
       text(
         0.5, 0.5,
-        "Pilih tingkat differencing untuk menampilkan ACF plot",
+        "Please select differencing level (d) to display ACF plot",
         cex = 1.2, col = "gray50", adj = c(0.5, 0.5)
       )
       return()
@@ -149,7 +149,7 @@ server_stationarity <- function(input, output, session, rv) {
         plot.new()
         text(
           0.5, 0.5,
-          "Tidak cukup data untuk ACF plot",
+          "Not enough data for ACF plot",
           cex = 1.2, col = "red", adj = c(0.5, 0.5)
         )
         return()
@@ -180,7 +180,7 @@ server_stationarity <- function(input, output, session, rv) {
       plot.new()
       text(
         0.5, 0.5,
-        "Pilih tingkat differencing untuk menampilkan PACF plot",
+        "Please select differencing level (d) to display PACF plot",
         cex = 1.2, col = "gray50", adj = c(0.5, 0.5)
       )
       return()
@@ -192,7 +192,7 @@ server_stationarity <- function(input, output, session, rv) {
         plot.new()
         text(
           0.5, 0.5,
-          "Tidak cukup data untuk PACF plot",
+          "Not enough data for PACF plot",
           cex = 1.2, col = "red", adj = c(0.5, 0.5)
         )
         return()
