@@ -57,7 +57,7 @@ All analyses are performed using established R packages.
 3. Install required packages on `R/00_packages.R`
 4. Run the app: `shiny::runApp()`
 
-or use the shinyapps.io[https://q177z1-andalan0raihad0nobelim.shinyapps.io/r_shiny_dashboard/] link.
+or use the [shinyapps.io](https://q177z1-andalan0raihad0nobelim.shinyapps.io/r_shiny_dashboard/) link.
 
 ## ⚠️ Limitations
 
