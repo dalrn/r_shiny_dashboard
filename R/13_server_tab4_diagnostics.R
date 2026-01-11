@@ -1,12 +1,11 @@
 # ============================================================================
-# FILE: R/13_server_diagnostics.R
-# TUJUAN: Server logic untuk diagnostic checking
+# TAB 5 SERVER LOGIC - DIAGNOSTIC CHECKING
 # ============================================================================
 
 server_diagnostics <- function(input, output, session, rv) {
 
   # --------------------------------------------------------------------------
-  # 1. METRIK MODEL (AIC, BIC, RMSE, MAE)
+  # 1. MODEL METRICS (AIC, BIC, RMSE, MAE)
   # --------------------------------------------------------------------------
   output$diagnostics_metrics <- renderPrint({
     if (is.null(rv$fitted_model)) {
@@ -45,14 +44,14 @@ server_diagnostics <- function(input, output, session, rv) {
     tryCatch({
       residuals_model <- residuals(rv$fitted_model)
 
-      # Uji Ljung-Box pada residual
+      # Perform Ljung-Box test
       ljung_box_test <- Box.test(
         residuals_model,
         lag  = 10,
         type = "Ljung-Box"
       )
 
-      # Simpan hasil dalam bentuk list agar mudah dipakai di UI lain
+      # Save in list for UI interpretation
       rv$ljung_box_result <- list(
         statistic = ljung_box_test$statistic,
         p_value = ljung_box_test$p.value,
@@ -78,7 +77,7 @@ server_diagnostics <- function(input, output, session, rv) {
   })
 
   # --------------------------------------------------------------------------
-  # INTERPRETASI LJUNG-BOX (UI)
+  # LJUNG-BOX (UI) INTERPRETATION
   # --------------------------------------------------------------------------
   output$ljung_box_interpretation <- renderUI({
     if (is.null(rv$ljung_box_result)) return(NULL)
@@ -213,7 +212,7 @@ server_diagnostics <- function(input, output, session, rv) {
   })
 
   # --------------------------------------------------------------------------
-  # KESIMPULAN DIAGNOSTIK MODEL
+  # MODEL DIAGNOSTICS CONCLUSION
   # --------------------------------------------------------------------------
   output$diagnostics_conclusion <- renderUI({
     if (is.null(rv$fitted_model) || is.null(rv$ljung_box_result)) return(NULL)

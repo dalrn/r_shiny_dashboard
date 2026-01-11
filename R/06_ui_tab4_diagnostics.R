@@ -1,17 +1,17 @@
 # ============================================================================
 # FILE: R/06_ui_tab4_diagnostics.R
-# TUJUAN: UI untuk Tab 4 - Diagnostik Model
+# TAB 4 UI - Model Diagnostics
 # ============================================================================
 
 ui_tab4_diagnostics <- function() {
   fluidPage(
-    h2("🔬 Diagnostik Model"),
+    h2("🔬 Model Diagnostics"),
     
     fluidRow(
       column(
         width = 12,
         wellPanel(
-          h4("📊 Kualitas Model"),
+          h4("📊 Model Quality"),
           verbatimTextOutput("diagnostics_metrics")
         )
       )
@@ -46,7 +46,7 @@ ui_tab4_diagnostics <- function() {
       column(
         width = 12,
         wellPanel(
-          h4("✅ Kesimpulan Diagnostik"),
+          h4("✅ Diagnostics Conclusion"),
           uiOutput("diagnostics_conclusion")
         )
       )

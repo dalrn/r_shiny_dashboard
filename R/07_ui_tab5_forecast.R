@@ -1,6 +1,5 @@
 # ============================================================================
-# FILE: R/07_ui_tab5_forecast.R
-# TUJUAN: UI untuk Tab 5 - Forecasting
+# TAB 5 UI - FORECAST
 # ============================================================================
 
 ui_tab5_forecast <- function() {
@@ -11,7 +10,7 @@ ui_tab5_forecast <- function() {
       column(
         width = 4,
         wellPanel(
-          h4("⚙️ Konfigurasi Forecast"),
+          h4("⚙️ Forecast Configuration"),
           sliderInput("forecast_horizon", "Forecast Horizon (Periode):",
                       min = 1, max = 36, value = 12, step = 1),
           hr(),

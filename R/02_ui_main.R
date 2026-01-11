@@ -1,6 +1,5 @@
 # ============================================================================
-# FILE: R/02_ui_main.R
-# TUJUAN: Struktur UI utama dengan semua tab
+# MAIN UI STRUCTURE ACROSS FILES
 # ============================================================================
 
 create_ui <- function() {
@@ -10,25 +9,25 @@ create_ui <- function() {
     
     # Tab 1: Upload & Exploration
     tabPanel(
-      title = "📁 Data & Eksplorasi",
+      title = "📁 Data Exploration",
       ui_tab1_upload()
     ),
     
     # Tab 2: Stationarity
     tabPanel(
-      title = "🔍 Uji Stasioneritas",
+      title = "🔍 Stationarity Test",
       ui_tab2_stationarity()
     ),
     
-    # Tab 3: Parameters
+    # Tab 3: Modeling
     tabPanel(
-      title = "⚙️ Identifikasi Parameter",
+      title = "⚙️ Model Parameters",
       ui_tab3_parameters()
     ),
     
     # Tab 4: Diagnostics
     tabPanel(
-      title = "🔬 Diagnostik Model",
+      title = "🔬 Model Diagnostics",
       ui_tab4_diagnostics()
     ),
     
@@ -40,7 +39,7 @@ create_ui <- function() {
     
     # Tab 6: About
     tabPanel(
-      title = "ℹ️ Tentang",
+      title = "ℹ️ About",
       ui_tab6_about()
     )
   )

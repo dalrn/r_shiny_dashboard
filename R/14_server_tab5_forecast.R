@@ -1,6 +1,5 @@
 # ============================================================================
-# FILE: R/14_server_forecast.R
-# TUJUAN: Server logic untuk forecasting ARIMA
+# TAB 5 SERVER LOGIC - FORECASTING
 # ============================================================================
 
 server_forecast <- function(input, output, session, rv) {
@@ -10,7 +9,7 @@ server_forecast <- function(input, output, session, rv) {
   # --------------------------------------------------------------------------
   observeEvent(input$generate_forecast_btn, {
     tryCatch({
-      # Pastikan model sudah di-fit
+      # Check if model is fitted
       if (is.null(rv$fitted_model)) {
         showNotification(
           "❌ Harap fit model di tab 'Identifikasi Parameter' dahulu",
@@ -19,7 +18,7 @@ server_forecast <- function(input, output, session, rv) {
         return()
       }
 
-      # Horizon peramalan (jumlah periode ke depan)
+      # Prediction horizon (forecast to how many future periods)
       h <- as.integer(input$forecast_horizon)
       if (is.na(h) || h < 1) {
         showNotification(
@@ -29,7 +28,7 @@ server_forecast <- function(input, output, session, rv) {
         return()
       }
 
-      # Level confidence interval
+      # Confidence interval level
       ci_level <- as.integer(input$forecast_ci) / 100
       if (is.na(ci_level) || ci_level < 0.5 || ci_level > 0.99) {
         showNotification(
@@ -42,7 +41,7 @@ server_forecast <- function(input, output, session, rv) {
       showNotification("⏳ Forecasting...", type = "message")
 
       # ----------------------------------------------------------------------
-      # Panggil fungsi forecast dan bentuk tabel hasil
+      # Call forecast function and create result table
       # ----------------------------------------------------------------------
       tryCatch({
         rv$forecast_result <- forecast::forecast(
@@ -79,7 +78,7 @@ server_forecast <- function(input, output, session, rv) {
   # PLOT FORECAST
   # --------------------------------------------------------------------------
   output$plot_forecast <- renderPlotly({
-    # Jika belum ada hasil forecast
+    # If no forecast result, show message
     if (is.null(rv$forecast_result)) {
       return(
         plotly::plot_ly() %>%
@@ -99,14 +98,13 @@ server_forecast <- function(input, output, session, rv) {
     }
 
     tryCatch({
-      # Jumlah titik forecast
       h <- nrow(rv$forecast_table)
 
-      # Index numerik untuk data historis dan forecast
+      # Numeric index for historical and forecast points
       hist_points <- seq_along(rv$value_col)
       fc_points   <- seq_along(rv$value_col)[length(rv$value_col)] + seq_len(h)
 
-      # Plot: historis + forecast + band CI
+      # Plot: historical + forecast + band CI
       p <- plotly::plot_ly() %>%
         plotly::add_trace(
           x = hist_points,
@@ -154,7 +152,7 @@ server_forecast <- function(input, output, session, rv) {
       p
 
     }, error = function(e) {
-      # Plot error jika gagal
+      # If error, show message
       plotly::plot_ly() %>%
         plotly::add_text(
           x = 0.5,
@@ -172,7 +170,7 @@ server_forecast <- function(input, output, session, rv) {
   })
 
   # --------------------------------------------------------------------------
-  # TABEL HASIL FORECAST
+  # FORECAST RESULTS TABLE
   # --------------------------------------------------------------------------
   output$forecast_table <- DT::renderDataTable({
     if (is.null(rv$forecast_table)) {
@@ -199,7 +197,7 @@ server_forecast <- function(input, output, session, rv) {
   })
 
   # --------------------------------------------------------------------------
-  # DOWNLOAD FORECAST SEBAGAI CSV
+  # DOWNLOAD FORECAST AS CSV
   # --------------------------------------------------------------------------
   output$download_forecast_csv <- downloadHandler(
     filename = function() {

@@ -1,20 +1,19 @@
 # ============================================================================
-# FILE: R/08_ui_tab6_about.R
-# TUJUAN: UI untuk Tab 6 - About
+# TAB 6 UI - ABOUT 
 # ============================================================================
 
 ui_tab6_about <- function() {
   fluidPage(
-    h2("ℹ️ Tentang Dashboard"),
+    h2("ℹ️ About Dashboard"),
     
     fluidRow(
       column(
         width = 12,
         wellPanel(
           h3("📊 TIME SERIES FORECASTING DASHBOARD"),
-          p("Dikembangkan untuk memenuhi tugas mata kuliah Komputasi Statistika I."),
+          p("Developed to fulfill the requirements of the Statistical Computing I course."),
           hr(),
-          h4("👥 Anggota Kelompok:"),
+          h4("👥 Developed by:"),
           tags$ol(
             tags$li("Andalan Raihad Nobelim"),
             tags$li("Fadia Az-Zahra Puteri"),

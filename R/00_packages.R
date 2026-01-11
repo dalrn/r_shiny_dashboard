@@ -1,7 +1,4 @@
-# ==============================================================================
-# FILE: R/00_packages.R
-# TUJUAN: Load semua packages yang diperlukan
-# ==============================================================================
+# Load required packages
 library(shiny)
 library(shinyjs)
 library(tidyverse)

@@ -1,9 +1,8 @@
 # ============================================================================
-# FILE: R/09_server_main.R
-# TUJUAN: Main server coordinator yang menghubungkan semua module
+# MAIN SERVER COORDINATOR CONNECTING ALL MODULES
 # ============================================================================
 
-# Load fungsi modul serve
+# Load server module functions 
 source("R/10_server_upload.R")
 source("R/11_server_stationarity.R")
 source("R/12_server_parameters.R")
@@ -49,7 +48,7 @@ create_server <- function(input, output, session) {
     forecast_table = NULL
   )
 
-  # Panggil modul server satu satu
+  # Call the modules
   server_upload(input, output, session, rv)
   server_stationarity(input, output, session, rv)
   server_parameters(input, output, session, rv)

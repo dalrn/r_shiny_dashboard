@@ -1,19 +1,16 @@
 # ============================================================================
-# FILE: R/10_server_upload.R
-# TUJUAN: Server logic untuk upload dan explorasi data
+# TAB 1 SERVER LOGIC - UPLOAD AND EXPLORE DATA
 # ============================================================================
 
 server_upload <- function(input, output, session, rv) {
 
-  # ---------------------------------------------------------------
   # UPLOAD FILE
-  # ---------------------------------------------------------------
   observeEvent(input$file_upload, {
     tryCatch({
       file <- input$file_upload
       ext <- tools::file_ext(file$datapath)
 
-      # Baca file 
+      # Read file
       if (ext == "csv") {
         rv$raw_data <- read.csv(file$datapath, stringsAsFactors = FALSE)
       } else if (ext %in% c("xlsx", "xls")) {
@@ -23,7 +20,7 @@ server_upload <- function(input, output, session, rv) {
         return()
       }
 
-      # Update pilihan kolom waktu dan nilai
+      # Update choice
       col_choices <- names(rv$raw_data)
       updateSelectInput(session, "time_column",
                         choices = col_choices, selected = col_choices[1])
@@ -37,22 +34,20 @@ server_upload <- function(input, output, session, rv) {
     })
   })
 
-  # --------------------------------------------------------------------------
-  # PEMILIHAN KOLOM
-  # --------------------------------------------------------------------------
+  # Select columns based on input
   observeEvent(list(input$time_column, input$value_column), {
     if (is.null(rv$raw_data) || is.null(input$time_column) || is.null(input$value_column)) return()
 
     tryCatch({
-      # Simpan nama kolom yang dipilih
+      # Save column name
       rv$time_col_name <- input$time_column
       rv$value_col_name <- input$value_column
 
-      # Ambil data raw per kolom
+      # Select raw data per column
       rv$time_col <- rv$raw_data[[input$time_column]]
       rv$value_col <- rv$raw_data[[input$value_column]]
 
-      # Validasi data time series
+      # Validate time series data
       validation <- validate_time_series_data(rv$time_col, rv$value_col)
       if (!validation$is_valid) {
         showNotification(paste(validation$errors, collapse = "; "), type = "error")
@@ -61,11 +56,11 @@ server_upload <- function(input, output, session, rv) {
         return()
       }
 
-      # Konversi kolom nilai ke numeric
+      # Convert to numeric
       rv$value_col <- as.numeric(rv$value_col)
 
       # ----------------------------------------------------------------------
-      # KONVERSI KOLOM WAKTU MENJADI DATE
+      # CONVERT TIME COLUMN TO DATE TYPE
       # ----------------------------------------------------------------------
       rv$time_col <- tryCatch({
         result <- tryCatch(as.Date(rv$time_col), error = function(e) NA)
@@ -89,14 +84,14 @@ server_upload <- function(input, output, session, rv) {
       }, error = function(e) rv$time_col)
 
       # ----------------------------------------------------------------------
-      # DETEKSI FREKUENSI & BENTUK OBJEK TS
+      # DETECT PERIOD AND CREATE TS OBJECT
       # ----------------------------------------------------------------------
       rv$data_frequency <- detect_frequency(rv$time_col)
 
       if (!is.na(rv$data_frequency)) {
         rv$ts_object <- ts(rv$value_col, frequency = rv$data_frequency)
       } else {
-        # Jika frekuensi tidak terdeteksi, gunakan ts tanpa frequency
+        # If frequency detection fails, create ts without frequency
         rv$ts_object <- ts(rv$value_col)
       }
 
@@ -105,7 +100,7 @@ server_upload <- function(input, output, session, rv) {
       rv$ts_differenced <- rv$ts_object
 
       # ----------------------------------------------------------------------
-      # DETEKSI KEKUATAN MUSIMAN (SEASONALITY)
+      # DETECT SEASONALITY
       # ----------------------------------------------------------------------
       if (!is.na(rv$data_frequency)) {
         seasonal_info <- detect_seasonality_strength(rv$value_col, rv$data_frequency)
@@ -123,7 +118,7 @@ server_upload <- function(input, output, session, rv) {
   })
 
   # --------------------------------------------------------------------------
-  # PESAN STATUS
+  # STATUS MESSAGE
   # --------------------------------------------------------------------------
   output$data_loaded_msg <- renderUI({
     if (is.null(rv$value_col)) return(NULL)
@@ -138,7 +133,7 @@ server_upload <- function(input, output, session, rv) {
   })
 
   # --------------------------------------------------------------------------
-  # PREVIEW DATA (TABEL)
+  # PREVIEW DATA (TABLE)
   # --------------------------------------------------------------------------
   output$data_preview <- DT::renderDataTable({
     if (is.null(rv$raw_data)) return(NULL)
@@ -157,7 +152,7 @@ server_upload <- function(input, output, session, rv) {
   })
 
   # --------------------------------------------------------------------------
-  # STATISTIK DESKRIPTIF
+  # DESCRIPTIVE STATISTCIS
   # --------------------------------------------------------------------------
   output$data_summary <- renderPrint({
     if (is.null(rv$value_col)) return(cat("Belum ada data yang di-upload.\n"))
@@ -189,7 +184,7 @@ server_upload <- function(input, output, session, rv) {
       Value = rv$value_col
     )
 
-    # Hitung trend linear sederhana
+    # Calculate simple linear trend
     fit <- lm(Value ~ Time, data = df)
     df$Trend   <- predict(fit)
 

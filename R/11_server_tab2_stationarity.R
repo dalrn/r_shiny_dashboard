@@ -1,21 +1,20 @@
 # ============================================================================
-# FILE: R/11_server_stationarity.R
-# TUJUAN: Server logic untuk stationarity testing
+# TAB 2 SERVER LOGIC - STATIONARITY TESTING
 # ============================================================================
 
 server_stationarity <- function(input, output, session, rv) {
 
   # --------------------------------------------------------------------------
-  # OBSERVE PILIHAN DIFFERENCING (d)
+  # OBSERVE DIFFERENCING (d) SELECTION
   # --------------------------------------------------------------------------
   observeEvent(input$diff_choice, {
     if (is.null(rv$ts_object)) return()
 
     tryCatch({
-      # Simpan level differencing yang dipilih pengguna
+      # Save user's differencing selection
       rv$diff_level <- as.integer(input$diff_choice)
 
-      # Bentuk data yang sudah di-differencing sesuai level d
+      # Difference data based on selection
       if (rv$diff_level == 0) {
         rv$ts_differenced <- rv$ts_object
       } else if (rv$diff_level == 1) {
@@ -30,7 +29,7 @@ server_stationarity <- function(input, output, session, rv) {
   })
 
   # --------------------------------------------------------------------------
-  # ADF TEST UNTUK DATA ORIGINAL
+  # ADF TEST FOR ORIGINAL DATA
   # --------------------------------------------------------------------------
   output$adf_test_original <- renderPrint({
     if (is.null(rv$ts_object)) {
@@ -40,7 +39,7 @@ server_stationarity <- function(input, output, session, rv) {
     }
 
     tryCatch({
-      # ADF pada data asli
+      # perform ADF
       rv$adf_result_original <- perform_adf_test(rv$ts_object)
 
       cat("=== ADF TEST RESULTS (ORIGINAL) ===\n\n")
@@ -58,7 +57,7 @@ server_stationarity <- function(input, output, session, rv) {
   })
 
   # --------------------------------------------------------------------------
-  # INTERPRETASI ADF ORIGINAL (UI)
+  # INTERPRET ORIGINAL ADF (UI)
   # --------------------------------------------------------------------------
   output$adf_interpretation_original <- renderUI({
     if (is.null(rv$adf_result_original)) return(NULL)
@@ -81,7 +80,7 @@ server_stationarity <- function(input, output, session, rv) {
   })
 
   # --------------------------------------------------------------------------
-  # ADF TEST UNTUK DATA YANG SUDAH DI-DIFFERENCING
+  # ADF TEST FOR DIFFERENCED DATA
   # --------------------------------------------------------------------------
   output$adf_test_differenced <- renderPrint({
     if (is.null(rv$ts_differenced)) {
@@ -90,7 +89,7 @@ server_stationarity <- function(input, output, session, rv) {
     }
 
     tryCatch({
-      # ADF pada data hasil differencing
+      # perform ADF
       rv$adf_result_differenced <- perform_adf_test(rv$ts_differenced)
 
       cat("=== ADF TEST RESULTS (d =", rv$diff_level, ") ===\n\n")
@@ -108,7 +107,7 @@ server_stationarity <- function(input, output, session, rv) {
   })
 
   # --------------------------------------------------------------------------
-  # INTERPRETASI ADF DIFFERENCED (UI)
+  # INTERPRET DIFFERENCED ADF (UI)
   # --------------------------------------------------------------------------
   output$adf_interpretation_differenced <- renderUI({
     if (is.null(rv$adf_result_differenced)) return(NULL)
@@ -131,7 +130,7 @@ server_stationarity <- function(input, output, session, rv) {
   })
 
   # --------------------------------------------------------------------------
-  # PLOT ACF UNTUK DATA YANG DI-DIFFERENCING
+  # PLOT ACF FOR DIFFERENCED DATA
   # --------------------------------------------------------------------------
   output$plot_acf <- renderPlot({
     if (is.null(rv$ts_differenced)) {
@@ -145,7 +144,7 @@ server_stationarity <- function(input, output, session, rv) {
     }
 
     tryCatch({
-      # Minimal 2 observasi
+      # at least 2 observations
       if (length(rv$ts_differenced) < 2) {
         plot.new()
         text(
@@ -174,7 +173,7 @@ server_stationarity <- function(input, output, session, rv) {
   })
 
   # --------------------------------------------------------------------------
-  # PLOT PACF UNTUK DATA YANG DI-DIFFERENCING
+  # PLOT PACF FOR DIFFERENCED DATA
   # --------------------------------------------------------------------------
   output$plot_pacf <- renderPlot({
     if (is.null(rv$ts_differenced)) {
@@ -188,7 +187,7 @@ server_stationarity <- function(input, output, session, rv) {
     }
 
     tryCatch({
-      # Minimal 2 observasi
+      # at least 2 observations
       if (length(rv$ts_differenced) < 2) {
         plot.new()
         text(

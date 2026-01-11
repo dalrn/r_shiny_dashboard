@@ -1,29 +1,28 @@
 # ============================================================================
-# FILE: R/03_ui_tab1_upload.R
-# TUJUAN: UI untuk Tab 1 - Upload & Explorasi Data
+# TAB 1 UI - UPLOAD AND EXPLORE DATA
 # ============================================================================
 
 ui_tab1_upload <- function() {
   fluidPage(
-    h2("📁 Upload Data & Explorasi"),
+    h2("📁 Upload & Explore Data"),
     
     fluidRow(
       column(
         width = 4,
         wellPanel(
           h4("Upload File (CSV/Excel)"),
-          fileInput("file_upload", "Pilih File:", accept = c(".csv", ".xlsx", ".xls")),
+          fileInput("file_upload", "Select File:", accept = c(".csv", ".xlsx", ".xls")),
           hr(),
-          h5("Pilih Kolom:"),
-          selectInput("time_column", "Waktu (Date/Time):", choices = NULL),
-          selectInput("value_column", "Nilai (Numeric):", choices = NULL),
+          h5("Select Columns:"),
+          selectInput("time_column", "Time (Date/Time):", choices = NULL),
+          selectInput("value_column", "Value (Numeric):", choices = NULL),
           hr(),
-          h5("Catatan:"),
+          h5("Notes:"),
           tags$ul(
-            tags$li("Minimal 10 observasi"),
-            tags$li("Format tanggal: YYYY-MM-DD atau YYYY-MM"),
-            tags$li("Kolom nilai harus numerik"),
-            tags$li("Tidak boleh ada missing values")
+            tags$li("Minimal 10 observations"),
+            tags$li("Date format: YYYY-MM-DD or YYYY-MM"),
+            tags$li("Value column must be numeric"),
+            tags$li("No missing values allowed")
           )
         )
       ),
@@ -37,11 +36,11 @@ ui_tab1_upload <- function() {
             DT::dataTableOutput("data_preview")
           ),
           tabPanel(
-            "📊 Statistik Deskriptif",
+            "📊 Descriptive Statistics",
             verbatimTextOutput("data_summary")
           ),
           tabPanel(
-            "📈 Visualisasi Awal",
+            "📈 Initial Visualization",
             plotlyOutput("plot_initial")
           )
         )

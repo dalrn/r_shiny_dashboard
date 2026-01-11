@@ -1,9 +1,8 @@
-# ============================================================================
-# FILE: R/01_globals.R
-# TUJUAN: Global configuration, constants, dan utility functions
-# ============================================================================
+# ==============================================================================
+# GLOBAL CONFIGURATIONS, CONSTANTS, AND UTILITY FUNCTIONS
+# ==============================================================================
 
-# Global constants
+# Global Constants
 COLOR_PALETTE <- list(
   primary = "#2E86AB",
   success = "#06A77D",
@@ -19,10 +18,8 @@ MAX_FORECAST_HORIZON <- 36
 MAX_DIFF_LEVEL <- 2
 ADF_ALPHA <- 0.05
 
-# ============================================================================
-# UTILITY FUNCTIONS
-# ============================================================================
 
+# Utility Functions
 format_number <- function(x, digits = 2) {
   format(round(x, digits = digits), big.mark = ",", trim = TRUE)
 }
@@ -48,27 +45,25 @@ create_info_message <- function(text) {
   )
 }
 
-# ============================================================================
-# DATA VALIDATION & PREPROCESSING
-# ============================================================================
+# Data Validation for Time Series & Preprocessing
 
 validate_time_series_data <- function(time_col, value_col) {
   errors <- c()
   
   if (is.null(time_col) || is.null(value_col)) {
-    errors <- c(errors, "Kolom time dan nilai harus dipilih")
+    errors <- c(errors, "Please select the time and value columns")
   }
   
   if (length(time_col) < 10) {
-    errors <- c(errors, "Data harus memiliki minimal 10 observasi")
+    errors <- c(errors, "Data must have at least 10 observations")
   }
   
   if (any(is.na(value_col))) {
-    errors <- c(errors, "Kolom nilai memiliki missing value")
+    errors <- c(errors, "Value column has missing values")
   }
   
   if (length(unique(value_col)) < 2) {
-    errors <- c(errors, "Kolom nilai tidak memiliki variasi (semuanya bernilai sama)")
+    errors <- c(errors, "Value column has no variation (all values are the same)")
   }
   
   list(
@@ -77,9 +72,7 @@ validate_time_series_data <- function(time_col, value_col) {
   )
 }
 
-# ============================================================================
-# TIME SERIES FREQUENCY DETECTION
-# ============================================================================
+# Time Series Periods & Seasonality Strength Detection
 
 detect_frequency <- function(dates) {
   if (length(dates) < 3) return(NA)
@@ -136,9 +129,7 @@ detect_seasonality_strength <- function(ts_data, frequency) {
   })
 }
 
-# ============================================================================
-# ADF TEST WRAPPER
-# ============================================================================
+# ADF Test for Stationarity
 
 perform_adf_test <- function(ts_data) {
   tryCatch({
@@ -150,9 +141,9 @@ perform_adf_test <- function(ts_data) {
       critical_values = result$critical.value,
       is_stationary = result$p.value <= ADF_ALPHA,
       interpretation = if (result$p.value <= ADF_ALPHA) {
-        "Data STASIONER (tolak H0)"
+        "Data is STATIONARY (reject H0)"
       } else {
-        "Data NON-STASIONER (gagal tolak H0)"
+        "Data is NON-STATIONARY (fail to reject H0)"
       }
     )
   }, error = function(e) {
@@ -166,9 +157,7 @@ perform_adf_test <- function(ts_data) {
   })
 }
 
-# ============================================================================
-# LJUNG-BOX TEST WRAPPER
-# ============================================================================
+# Ljung-Box Test for Residuals Autocorrelation
 
 perform_ljung_box_test <- function(residuals) {
   tryCatch({
@@ -179,9 +168,9 @@ perform_ljung_box_test <- function(residuals) {
       p_value = result$p.value,
       is_white_noise = result$p.value > ADF_ALPHA,
       interpretation = if (result$p.value > ADF_ALPHA) {
-        "Residual adalah WHITE NOISE (tidak ada autokorelasi)"
+        "Residual is WHITE NOISE (no autocorrelation)"
       } else {
-        "Residual BUKAN WHITE NOISE (ada autokorelasi)"
+        "Residual is NOT WHITE NOISE (autocorrelation present)"
       }
     )
   }, error = function(e) {

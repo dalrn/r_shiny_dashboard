@@ -1,17 +1,16 @@
 # ============================================================================
-# FILE: R/05_ui_tab3_parameters.R
-# TUJUAN: UI untuk Tab 3 - Identifikasi Parameter
+# TAB 3 UI - MODEL PARAMETERS
 # ============================================================================
 
 ui_tab3_parameters <- function() {
   fluidPage(
-    h2("⚙️ Identifikasi Parameter ARIMA"),
+    h2("⚙️ ARIMA Parameters"),
     
     fluidRow(
       column(
         width = 4,
         wellPanel(
-          h4("Metode Estimasi"),
+          h4("Estimation Method"),
           radioButtons(
             "param_method", 
             NULL,
@@ -21,7 +20,7 @@ ui_tab3_parameters <- function() {
           
           hr(),
           
-          h4("Masukkan Parameter"),
+          h4("Enter Parameters"),
           numericInput("param_p", "p (AR Order):", value = 1, min = 0, max = 5),
           numericInput("param_q", "q (MA Order):", value = 1, min = 0, max = 5),
           numericInput("param_d", "d (Differencing):", value = 1, min = 0, max = 2),
@@ -31,8 +30,6 @@ ui_tab3_parameters <- function() {
           h4("Parameter Seasonal"),
           checkboxInput("is_seasonal_manual", "Seasonal Model?", value = FALSE),
           
-          # PENTING: Gunakan conditionalPanel dengan JavaScript condition
-          # Jangan mengakses input langsung di UI
           conditionalPanel(
             condition = "input.is_seasonal_manual == true",
             numericInput("param_P", "P (Seasonal AR):", value = 1, min = 0, max = 3),
