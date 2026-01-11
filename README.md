@@ -1,16 +1,16 @@
-# Time Series Forecasting Dashboard
+# 📈🤖 Time Series Forecasting Dashboard
 
 An interactive Shiny dashboard for time series analysis, ARIMA modeling, diagnostics, and forecasting of univariate time series data.  
 
 ---
 
-## Overview
+## 📌 Overview
 
 The **Time Series Forecasting Dashboard** provides a workflow for analyzing time series data, from initial exploration to model diagnostics and forecasting. The application is designed for educational and analytical purposes, focusing on classical time series methods.
 
 ---
 
-## Features
+## ✨ Features
 
 - Data upload and exploration
 - Time series visualization
@@ -21,7 +21,7 @@ The **Time Series Forecasting Dashboard** provides a workflow for analyzing time
 
 ---
 
-## Data Requirements
+## 📥 Data Requirements
 
 The dashboard expects a dataset with **at least two columns**:
 
@@ -37,7 +37,7 @@ Notes:
 
 ---
 
-## Methods Used
+## 🧮 Methods Used
 
 This dashboard implements classical time series techniques, including:
 
@@ -50,19 +50,21 @@ All analyses are performed using established R packages.
 
 ---
 
-## Run the App
+## 🚀 How to Run the App
 
 1. Clone the repository
 2. Open the project folder in R or VS Code
 3. Install required packages on `R/00_packages.R`
 4. Run the app: `shiny::runApp()`
 
-## Limitations
+## ⚠️ Limitations
 
 - The dashboard focuses on univariate time series only
 - External regressors, structural breaks, and regime changes are not considered
 
-### Developed by Andalan, Fadia, Faqih, Ninis, and Wafi.
+---
+
+<sub>Developed by Andalan, Fadia, Faqih, Ninis, and Wafi.</sub>
 
 
 
