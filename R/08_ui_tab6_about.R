@@ -48,19 +48,9 @@ ui_tab6_about <- function() {
           tags$ul(
             tags$li("The dashboard focuses on univariate time series only."),
             tags$li("External regressors, structural breaks, and regime changes are not considered."),
-            tags$li("Forecast accuracy depends on data quality and the validity of model assumptions.")
           ),
           
           hr(),
-          
-          h4("👥 Developed by"),
-          tags$ol(
-            tags$li("Andalan Raihad Nobelim"),
-            tags$li("Fadia Az-Zahra Puteri"),
-            tags$li("Faqih Arjiyo"),
-            tags$li("Nisrina Rachmi Maulidina"),
-            tags$li("Wafi Zhafarina Khasanah")
-          ),
           
           p(
             em("Built using R and Shiny.")
